@@ -5,13 +5,13 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
-import { checkCurrentState } from "./check-current-state";
+import { StringItemTypes } from "./string-types";
+import { ElementStates } from "../../types/element-states";
 
 export const StringComponent: FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [loader, setLoader] = useState(false);
-  const [array, setArray] = useState<Array<string>>();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [array, setArray] = useState<Array<StringItemTypes>>();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -19,7 +19,9 @@ export const StringComponent: FC = () => {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newArray = inputValue.split("");
+    const newArray = inputValue.split("").map((value: string) => {
+      return { value, state: ElementStates.Default };
+    });
     setArray(newArray);
     setLoader(true);
   };
@@ -36,12 +38,8 @@ export const StringComponent: FC = () => {
         <Button text="Развернуть" isLoader={loader} type="submit" />
       </form>
       <ul className={style.symbolList}>
-        {array?.map((item, index) => (
-          <Circle
-            key={nanoid()}
-            letter={item}
-            state={checkCurrentState(array, index, currentIndex)}
-          />
+        {array?.map((item) => (
+          <Circle key={nanoid()} letter={item.value} state={item.state} />
         ))}
       </ul>
     </SolutionLayout>
