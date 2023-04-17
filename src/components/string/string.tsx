@@ -13,16 +13,16 @@ export const StringComponent: FC = () => {
   const [array, setArray] = useState<Array<string>>();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  function onChange(e: ChangeEvent<HTMLInputElement>) {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
-  }
+  };
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newArray = inputValue.split("");
     setArray(newArray);
     setLoader(true);
-  }
+  };
 
   return (
     <SolutionLayout title="Строка" extraClass={style.container}>
