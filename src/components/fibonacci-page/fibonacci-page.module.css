@@ -6,9 +6,12 @@
 }
 
 .symbolList {
-  margin: 0;
+  max-width: 944px;
+  margin: 0 auto;
   padding: 120px 0 0 0;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 16px;
+  row-gap: 78px;
+  column-gap: 16px;
 }
