@@ -5,6 +5,9 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
+import { setDelay } from "../../utils/set-delay";
+import { DELAY_IN_MS } from "../../constants/delays";
+import { swap } from "./utils";
 import { StringItemTypes } from "./string-types";
 import { ElementStates } from "../../types/element-states";
 
@@ -19,11 +22,33 @@ export const StringComponent: FC = () => {
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newArray = inputValue.split("").map((value: string) => {
-      return { value, state: ElementStates.Default };
+    const newArray = inputValue.split("").map((letter: string) => {
+      return { letter, state: ElementStates.Default };
     });
     setArray(newArray);
     setLoader(true);
+    const end = newArray.length - 1;
+    const middle = Math.ceil(newArray.length / 2);
+
+    for (let i = 0; i < middle; i++) {
+      let j = end - i;
+
+      if (i !== j) {
+        newArray[i].state = ElementStates.Changing;
+        newArray[j].state = ElementStates.Changing;
+        setArray([...newArray]);
+        await setDelay(DELAY_IN_MS);
+      }
+      swap(newArray, i, j);
+
+      newArray[i].state = ElementStates.Modified;
+      newArray[j].state = ElementStates.Modified;
+
+      setArray([...newArray]);
+    }
+
+    setLoader(false);
+    setInputValue("");
   };
 
   return (
@@ -35,11 +60,15 @@ export const StringComponent: FC = () => {
           onChange={onChange}
           value={inputValue}
         />
-        <Button text="Развернуть" isLoader={loader} type="submit" />
+        <Button
+          text="Развернуть"
+          isLoader={loader}
+          type="submit"          
+        />
       </form>
       <ul className={style.symbolList}>
         {array?.map((item) => (
-          <Circle key={nanoid()} letter={item.value} state={item.state} />
+          <Circle key={nanoid()} letter={item.letter} state={item.state} />
         ))}
       </ul>
     </SolutionLayout>
