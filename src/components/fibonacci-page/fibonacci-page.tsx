@@ -23,7 +23,7 @@ export const FibonacciPage: FC = () => {
     setLoader(true);
     const data = fib(Number(inputValue));
     console.log(data);
-    for (let i = 1; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       await setDelay(SHORT_DELAY_IN_MS);
       setArray(data.slice(0, i + 1));
     }    
