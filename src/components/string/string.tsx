@@ -63,7 +63,8 @@ export const StringComponent: FC = () => {
         <Button
           text="Развернуть"
           isLoader={loader}
-          type="submit"          
+          type="submit"
+          disabled={!!!inputValue}
         />
       </form>
       <ul className={style.symbolList}>
