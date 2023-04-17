@@ -31,7 +31,7 @@ export const FibonacciPage: FC = () => {
   };
 
   return (
-    <SolutionLayout title="Последовательность Фибоначчи">
+    <SolutionLayout title="Последовательность Фибоначчи" extraClass="pb-50">
       <form className={style.form} onSubmit={onSubmit}>
         <Input
           type="number"

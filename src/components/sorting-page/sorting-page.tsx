@@ -1,10 +1,8 @@
-import React from "react";
+import { FC } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 
-export const SortingPage: React.FC = () => {
-  return (
-    <SolutionLayout title="Сортировка массива">
-
-    </SolutionLayout>
-  );
+export const SortingPage: FC = () => {
+  return <SolutionLayout title="Сортировка массива">
+    
+  </SolutionLayout>;
 };
