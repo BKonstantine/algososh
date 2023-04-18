@@ -64,7 +64,10 @@ class Queue<T> implements IQueue<T> {
   getTailIndex = (): number => this.tail;
 
   clear = () => {
-    this.container = [];
+    this.container = Array(this.size).fill("");
+    this.length = 0;
+    this.head = 0;
+    this.tail = 0;
   };
 }
 

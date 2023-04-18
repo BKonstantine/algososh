@@ -19,21 +19,36 @@ export const QueuePage: FC = () => {
     clear: false,
   });
 
-  console.log(queue.getHeadIndex(), queue.getTailIndex());
-
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  const addElement = () => {
+  const addElement = async () => {
+    setLoader({ ...loader, add: true });
+    await setDelay(SHORT_DELAY_IN_MS);
     queue.enqueue(inputValue);
     setArray([...queue.getElements()]);
     setInputValue("");
+    setLoader({ ...loader, add: false });
   };
 
-  const deleteElement = () => {
+  const deleteElement = async () => {
+    setLoader({ ...loader, delete: true });
+    await setDelay(SHORT_DELAY_IN_MS);
     queue.dequeue();
     setArray([...queue.getElements()]);
+    if (queue.isEmpty()) {
+      queue.clear();
+    }
+    setLoader({ ...loader, delete: false });
+  };
+
+  const clearElements = async () => {
+    setLoader({ ...loader, clear: true });
+    await setDelay(SHORT_DELAY_IN_MS);
+    queue.clear();
+    setArray([...queue.getElements()]);
+    setLoader({ ...loader, clear: false });
   };
 
   return (
@@ -63,6 +78,7 @@ export const QueuePage: FC = () => {
         <Button
           text="Очистить"
           type="button"
+          onClick={clearElements}
           extraClass={style.button}
           isLoader={loader.clear}
           disabled={queue.isEmpty()}
