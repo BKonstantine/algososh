@@ -1,7 +1,7 @@
-import { StringItemTypes } from "./string-types";
+import { ElementTypes } from "../../types/element-states";
 
 export const swap = (
-  value: StringItemTypes[],
+  value: ElementTypes[],
   firstItem: number,
   secondItem: number
 ) => {

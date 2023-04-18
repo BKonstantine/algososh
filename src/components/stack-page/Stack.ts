@@ -26,7 +26,7 @@ class Stack<T> implements IStack<T> {
       return null;
     }
   };
-  
+
   getSize = () => this.container.length;
 
   getElements = () => this.container;
