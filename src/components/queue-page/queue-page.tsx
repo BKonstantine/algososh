@@ -19,7 +19,7 @@ export const QueuePage: FC = () => {
     add: false,
     delete: false,
     clear: false,
-  });
+  });  
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -27,8 +27,8 @@ export const QueuePage: FC = () => {
 
   const addElement = async () => {
     setLoader({ ...loader, add: true });
-    setCurrIndex(queue.getTailIndex());
-    await setDelay(SHORT_DELAY_IN_MS);    
+    setCurrIndex(queue.getTail());
+    await setDelay(SHORT_DELAY_IN_MS);
     queue.enqueue(inputValue);
     setArray([...queue.getElements()]);
     setInputValue("");
@@ -38,7 +38,7 @@ export const QueuePage: FC = () => {
 
   const deleteElement = async () => {
     setLoader({ ...loader, delete: true });
-    setCurrIndex(queue.getHeadIndex());
+    setCurrIndex(queue.getHead());
     await setDelay(SHORT_DELAY_IN_MS);
     queue.dequeue();
     setArray([...queue.getElements()]);
@@ -103,10 +103,10 @@ export const QueuePage: FC = () => {
                   : ElementStates.Default
               }
               head={
-                index === queue.getHeadIndex() && !queue.isEmpty() ? HEAD : ""
+                index === queue.getHead() && !queue.isEmpty() ? HEAD : ""
               }
               tail={
-                index === queue.getTailIndex() - 1 && !queue.isEmpty()
+                index === queue.getTailIndex() && !queue.isEmpty()
                   ? TAIL
                   : ""
               }

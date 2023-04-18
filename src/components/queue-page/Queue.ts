@@ -3,7 +3,8 @@ interface IQueue<T> {
   dequeue: () => void;
   peak: () => T | null;
   getElements: () => T[];
-  getHeadIndex: () => number;
+  getHead: () => number;
+  getTail: () => number;
   getTailIndex: () => number;
   clear: () => void;
   isEmpty: () => void;
@@ -14,6 +15,7 @@ class Queue<T> implements IQueue<T> {
   private container: T[] = [];
   private head = 0;
   private tail = 0;
+  private tailIndex = 0;
   private readonly size: number = 0;
   private length: number = 0;
 
@@ -26,9 +28,9 @@ class Queue<T> implements IQueue<T> {
     if (this.length >= this.size) {
       throw new Error("Maximum length exceeded");
     } else {
-      this.container[this.tail % this.size] = item;
+      this.tailIndex = this.tail;
+      this.container[this.tail] = item;
       this.tail = (this.tail + 1) % this.size;
-      //this.tail++;
       this.length++;
     }
   };
@@ -37,9 +39,8 @@ class Queue<T> implements IQueue<T> {
     if (this.isEmpty()) {
       throw new Error("No elements in the queue");
     } else {
-      delete this.container[this.head % this.size];
+      delete this.container[this.head];
       this.head = (this.head + 1) % this.size;
-      //this.head++;
       this.length--;
     }
   };
@@ -61,15 +62,18 @@ class Queue<T> implements IQueue<T> {
 
   getElements = () => this.container;
 
-  getHeadIndex = (): number => this.head;
+  getHead = (): number => this.head;
 
-  getTailIndex = (): number => this.tail;
+  getTail = (): number => this.tail;
+
+  getTailIndex = (): number => this.tailIndex;
 
   clear = () => {
     this.container = Array(this.size).fill("");
     this.length = 0;
     this.head = 0;
     this.tail = 0;
+    this.tailIndex = 0;
   };
 }
 
