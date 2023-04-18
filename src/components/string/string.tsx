@@ -8,13 +8,13 @@ import { Circle } from "../ui/circle/circle";
 import { setDelay } from "../../utils/set-delay";
 import { DELAY_IN_MS } from "../../constants/delays";
 import { swap } from "./utils";
-import { StringItemTypes } from "./string-types";
+import { ElementTypes } from "../../types/element-states";
 import { ElementStates } from "../../types/element-states";
 
 export const StringComponent: FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [loader, setLoader] = useState(false);
-  const [array, setArray] = useState<Array<StringItemTypes>>();
+  const [array, setArray] = useState<Array<ElementTypes>>();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);

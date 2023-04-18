@@ -11,8 +11,6 @@ export const StackPage: FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [array, setArray] = useState<string[]>();
 
-  console.log(array);
-
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
