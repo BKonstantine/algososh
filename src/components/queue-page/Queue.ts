@@ -27,7 +27,8 @@ class Queue<T> implements IQueue<T> {
       throw new Error("Maximum length exceeded");
     } else {
       this.container[this.tail % this.size] = item;
-      this.tail++;
+      this.tail = (this.tail + 1) % this.size;
+      //this.tail++;
       this.length++;
     }
   };
@@ -37,7 +38,8 @@ class Queue<T> implements IQueue<T> {
       throw new Error("No elements in the queue");
     } else {
       delete this.container[this.head % this.size];
-      this.head++;
+      this.head = (this.head + 1) % this.size;
+      //this.head++;
       this.length--;
     }
   };

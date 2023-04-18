@@ -7,12 +7,14 @@ import { Circle } from "../ui/circle/circle";
 import { nanoid } from "nanoid";
 import { queue } from "./Queue";
 import { setDelay } from "../../utils/set-delay";
+import { ElementStates } from "../../types/element-states";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { TAIL, HEAD } from "../../constants/element-captions";
 
 export const QueuePage: FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [array, setArray] = useState<string[]>(queue.getElements());
+  const [currIndex, setCurrIndex] = useState<number | null>(null);
   const [loader, setLoader] = useState({
     add: false,
     delete: false,
@@ -25,21 +27,25 @@ export const QueuePage: FC = () => {
 
   const addElement = async () => {
     setLoader({ ...loader, add: true });
-    await setDelay(SHORT_DELAY_IN_MS);
+    setCurrIndex(queue.getTailIndex());
+    await setDelay(SHORT_DELAY_IN_MS);    
     queue.enqueue(inputValue);
     setArray([...queue.getElements()]);
     setInputValue("");
+    setCurrIndex(null);
     setLoader({ ...loader, add: false });
   };
 
   const deleteElement = async () => {
     setLoader({ ...loader, delete: true });
+    setCurrIndex(queue.getHeadIndex());
     await setDelay(SHORT_DELAY_IN_MS);
     queue.dequeue();
     setArray([...queue.getElements()]);
     if (queue.isEmpty()) {
       queue.clear();
     }
+    setCurrIndex(null);
     setLoader({ ...loader, delete: false });
   };
 
@@ -91,6 +97,11 @@ export const QueuePage: FC = () => {
               key={nanoid()}
               index={index}
               letter={element}
+              state={
+                index === currIndex
+                  ? ElementStates.Changing
+                  : ElementStates.Default
+              }
               head={
                 index === queue.getHeadIndex() && !queue.isEmpty() ? HEAD : ""
               }
