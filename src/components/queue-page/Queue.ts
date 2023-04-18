@@ -2,18 +2,20 @@ interface IQueue<T> {
   enqueue: (item: T) => void;
   dequeue: () => void;
   peak: () => T | null;
+  getElements: () => T[];
+  clear: () => void;
 }
 
 class Queue<T> implements IQueue<T> {
-  container: (T | null)[] = [];
-  head = 0;
-  tail = 0;
+  private container: T[] = [];
+  private head = 0;
+  private tail = 0;
   private readonly size: number = 0;
   private length: number = 0;
 
   constructor(size: number) {
     this.size = size;
-    this.container = Array(size);
+    this.container = Array(size).fill("");
   }
 
   enqueue = (item: T) => {
@@ -48,6 +50,12 @@ class Queue<T> implements IQueue<T> {
   };
 
   isEmpty = () => this.length === 0;
+
+  getElements = () => this.container;
+
+  clear = () => {
+    this.container = [];
+  };
 }
 
 export const queue = new Queue<string>(7);

@@ -4,6 +4,7 @@ interface IStack<T> {
   peak: () => T | null;
   getSize: () => number;
   getElements: () => T[];
+  clear: () => void;
 }
 
 class Stack<T> implements IStack<T> {
