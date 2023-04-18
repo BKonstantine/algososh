@@ -3,7 +3,11 @@ interface IQueue<T> {
   dequeue: () => void;
   peak: () => T | null;
   getElements: () => T[];
+  getHeadIndex: () => number;
+  getTailIndex: () => number;
   clear: () => void;
+  isEmpty: () => void;
+  isFull: () => void;
 }
 
 class Queue<T> implements IQueue<T> {
@@ -51,7 +55,13 @@ class Queue<T> implements IQueue<T> {
 
   isEmpty = () => this.length === 0;
 
+  isFull = () => this.length === this.size;
+
   getElements = () => this.container;
+
+  getHeadIndex = (): number => this.head;
+
+  getTailIndex = (): number => this.tail;
 
   clear = () => {
     this.container = [];
