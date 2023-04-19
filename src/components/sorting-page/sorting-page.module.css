@@ -21,6 +21,10 @@ button:last-child {
   margin-left: 80px;
 }
 
+.button {
+  width: 205px;
+}
+
 .symbolList {
   margin: 0;
   height: 340px;

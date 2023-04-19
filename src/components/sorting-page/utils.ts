@@ -13,7 +13,11 @@ export function randomArr(): SortTypes[] {
   return arr;
 }
 
-export const swap = (value: SortTypes[], firstItem: number, secondItem: number) => {
+export const swap = (
+  value: SortTypes[],
+  firstItem: number,
+  secondItem: number
+) => {
   return ([value[firstItem], value[secondItem]] = [
     value[secondItem],
     value[firstItem],
@@ -33,9 +37,7 @@ export const selectionSort = (arr: SortTypes[], order: Direction) => {
         maxInd = j;
       }
     }
-    if (maxInd !== i) {
-      swap(arr, maxInd, i);
-    }
+    swap(arr, maxInd, i);
   }
 };
 
@@ -53,5 +55,5 @@ export const bubbleSort = (arr: SortTypes[], order: Direction) => {
         swapped = true;
       }
     }
-  } while (swapped); 
+  } while (swapped);
 };
