@@ -32,7 +32,9 @@ export const SortingPage: FC = () => {
       </div>
       <ul className={style.symbolList}>
         {array?.map((item) => {
-          return <Column key={nanoid()} index={item.index} />;
+          return (
+            <Column key={nanoid()} index={item.index} state={item.state} />
+          );
         })}
       </ul>
     </SolutionLayout>
