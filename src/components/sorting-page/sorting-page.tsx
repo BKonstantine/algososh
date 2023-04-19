@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import style from "./sorting-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
@@ -10,19 +10,38 @@ import { randomArr } from "./utils";
 import { ElementStates, SortTypes } from "../../types/element-states";
 
 export const SortingPage: FC = () => {
+  const [radioValue, setRadioValue] = useState("selectionSort");
   const [array, setArray] = useState<SortTypes[]>();
 
   const getNewArray = () => {
-    const newArray = randomArr();
-    setArray(newArray);
+    setArray(randomArr());
+  };
+
+  useEffect(() => {
+    getNewArray();
+  }, []);
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setRadioValue(e.target.value);
   };
 
   return (
     <SolutionLayout title="Сортировка массива">
       <div className={style.form}>
         <div className={style.form__radioButtons}>
-          <RadioInput label="Выбор" name="radio" />
-          <RadioInput label="Пузырёк" name="radio" />
+          <RadioInput
+            label="Выбор"
+            name="sortType"
+            value="selectionSort"
+            defaultChecked
+            onChange={onChange}
+          />
+          <RadioInput
+            label="Пузырёк"
+            name="sortType"
+            value="bubblesort"
+            onChange={onChange}
+          />
         </div>
         <div className={style.form__buttons}>
           <Button text="По возрастанию" sorting={Direction.Ascending} />
