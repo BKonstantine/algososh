@@ -8,3 +8,8 @@ export type ElementTypes = {
   letter: string;
   state: ElementStates;
 };
+
+export type SortTypes = {
+  index: number;
+  state: ElementStates;
+};
