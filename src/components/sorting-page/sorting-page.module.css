@@ -1,0 +1,22 @@
+.form {
+  margin: 0 auto;
+  max-width: 980px;
+  display: flex;
+  gap: 52px;
+}
+
+.form__radioButtons {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.form__buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+button:last-child {
+  margin-left: 80px;
+}
