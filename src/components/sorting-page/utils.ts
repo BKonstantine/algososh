@@ -20,26 +20,38 @@ const swap = (value: SortTypes[], firstItem: number, secondItem: number) => {
   ]);
 };
 
-export const selectionSort = (arr: SortTypes[], direction: Direction) => {
+export const selectionSort = (arr: SortTypes[], order: Direction) => {
   const { length } = arr;
   for (let i = 0; i < length - 1; i++) {
     let maxInd = i;
-    if (direction === Direction.Ascending) {
-      for (let j = i + 1; j < length; j++) {
-        if (arr[maxInd] < arr[j]) {
-          maxInd = j;
-        }
-      }
-    } else {
-      for (let j = i + 1; j < length; j++) {
-        if (arr[maxInd] > arr[j]) {
-          maxInd = j;
-        }
+    for (let j = i + 1; j < length; j++) {
+      if (
+        order === Direction.Ascending
+          ? arr[j] < arr[maxInd]
+          : arr[j] > arr[maxInd]
+      ) {
+        maxInd = j;
       }
     }
-
     if (maxInd !== i) {
       swap(arr, maxInd, i);
     }
   }
+};
+
+export const bubbleSort = (arr: SortTypes[], order: Direction) => {
+  let swapped: boolean;
+  do {
+    swapped = false;
+    for (let i = 0; i < arr.length - 1; i++) {
+      const shouldSwap =
+        order === Direction.Ascending
+          ? arr[i] > arr[i + 1]
+          : arr[i] < arr[i + 1];
+      if (shouldSwap) {
+        swap(arr, i, i + 1);
+        swapped = true;
+      }
+    }
+  } while (swapped); 
 };
