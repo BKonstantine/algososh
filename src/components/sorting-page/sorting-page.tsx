@@ -31,9 +31,9 @@ export const SortingPage: FC = () => {
   const handleSort = (order: Direction) => {
     if (radioValue === "selectionSort") {
       selectionSort(array, order);
-    } /* else {
+    } else {
       bubbleSort(array, order);
-    } */
+    }
   };
 
   const selectionSort = async (arr: SortTypes[], order: Direction) => {
@@ -73,7 +73,7 @@ export const SortingPage: FC = () => {
     setLoader({ loader: false, descending: false, ascending: false });    
   };
 
-  /*  const bubbleSort = (arr: SortTypes[], order: Direction) => {
+   const bubbleSort = (arr: SortTypes[], order: Direction) => {
     let swapped: boolean;
     do {
       swapped = false;
@@ -88,7 +88,7 @@ export const SortingPage: FC = () => {
         }
       }
     } while (swapped);
-  }; */
+  };
 
   return (
     <SolutionLayout title="Сортировка массива">
