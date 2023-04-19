@@ -13,7 +13,7 @@ export function randomArr(): SortTypes[] {
   return arr;
 }
 
-const swap = (value: SortTypes[], firstItem: number, secondItem: number) => {
+export const swap = (value: SortTypes[], firstItem: number, secondItem: number) => {
   return ([value[firstItem], value[secondItem]] = [
     value[secondItem],
     value[firstItem],

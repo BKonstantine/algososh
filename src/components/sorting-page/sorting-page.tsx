@@ -6,29 +6,66 @@ import { RadioInput } from "../ui/radio-input/radio-input";
 import { Button } from "../ui/button/button";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
-import { randomArr } from "./utils";
+import { randomArr, swap } from "./utils";
 import { ElementStates, SortTypes } from "../../types/element-states";
 
 export const SortingPage: FC = () => {
   const [radioValue, setRadioValue] = useState("selectionSort");
-  const [order, setOrder] = useState("");
   const [array, setArray] = useState<SortTypes[]>(randomArr());
 
   const getNewArray = () => {
     setArray(randomArr());
-  };  
+  };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRadioValue(e.target.value);
   };
 
-  const ascendingSort = () => {
-    setOrder(Direction.Ascending);
+  const handleSort = (order: Direction) => {
+    if (radioValue === "selectionSort") {
+      selectionSort(array, order);
+    } /* else {
+      bubbleSort(array, order);
+    } */
   };
 
-  const descendingSort = () => {
-    setOrder(Direction.Descending);
+  const selectionSort = (arr: SortTypes[], order: Direction) => {       
+    const { length } = arr;
+    for (let i = 0; i < length - 1; i++) {
+      let maxInd = i;
+      for (let j = i + 1; j < length; j++) {
+        if (
+          order === Direction.Ascending
+            ? arr[j] < arr[maxInd]
+            : arr[j] > arr[maxInd]
+        ) {
+          maxInd = j;
+          setArray([...arr]);
+        }        
+      }
+      if (maxInd !== i) {
+        swap(arr, maxInd, i);
+      }      
+    }
+    console.log(arr);
   };
+
+  /*  const bubbleSort = (arr: SortTypes[], order: Direction) => {
+    let swapped: boolean;
+    do {
+      swapped = false;
+      for (let i = 0; i < arr.length - 1; i++) {
+        const shouldSwap =
+          order === Direction.Ascending
+            ? arr[i] > arr[i + 1]
+            : arr[i] < arr[i + 1];
+        if (shouldSwap) {
+          swap(arr, i, i + 1);
+          swapped = true;
+        }
+      }
+    } while (swapped);
+  }; */
 
   return (
     <SolutionLayout title="Сортировка массива">
@@ -44,7 +81,7 @@ export const SortingPage: FC = () => {
           <RadioInput
             label="Пузырёк"
             name="sortType"
-            value="bubblesort"
+            value="bubbleSort"
             onChange={onChange}
           />
         </div>
@@ -52,12 +89,12 @@ export const SortingPage: FC = () => {
           <Button
             text="По возрастанию"
             sorting={Direction.Ascending}
-            onClick={ascendingSort}
+            onClick={() => handleSort(Direction.Ascending)}
           />
           <Button
             text="По убыванию"
             sorting={Direction.Descending}
-            onClick={descendingSort}
+            onClick={() => handleSort(Direction.Descending)}
           />
           <Button text="Новый массив" onClick={getNewArray} />
         </div>
