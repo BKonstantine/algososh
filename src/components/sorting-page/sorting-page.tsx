@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { nanoid } from "nanoid";
 import style from "./sorting-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { RadioInput } from "../ui/radio-input/radio-input";
@@ -31,7 +32,7 @@ export const SortingPage: FC = () => {
       </div>
       <ul className={style.symbolList}>
         {array?.map((item) => {
-          return <Column index={item.index} />;
+          return <Column key={nanoid()} index={item.index} />;
         })}
       </ul>
     </SolutionLayout>
