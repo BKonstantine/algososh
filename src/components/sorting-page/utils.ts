@@ -31,8 +31,8 @@ export const selectionSort = (arr: SortTypes[], order: Direction) => {
     for (let j = i + 1; j < length; j++) {
       if (
         order === Direction.Ascending
-          ? arr[j] < arr[maxInd]
-          : arr[j] > arr[maxInd]
+          ? arr[j].index < arr[maxInd].index
+          : arr[j].index > arr[maxInd].index
       ) {
         maxInd = j;
       }
@@ -41,19 +41,17 @@ export const selectionSort = (arr: SortTypes[], order: Direction) => {
   }
 };
 
-export const bubbleSort = (arr: SortTypes[], order: Direction) => {
-  let swapped: boolean;
-  do {
-    swapped = false;
-    for (let i = 0; i < arr.length - 1; i++) {
-      const shouldSwap =
+export const bubbleSort = async (arr: SortTypes[], order: Direction) => {
+  const { length } = arr;
+  for (let i = 0; i < length; i++) {
+    for (let j = 0; j < length - i - 1; j++) {
+      if (
         order === Direction.Ascending
-          ? arr[i] > arr[i + 1]
-          : arr[i] < arr[i + 1];
-      if (shouldSwap) {
-        swap(arr, i, i + 1);
-        swapped = true;
+          ? arr[j].index > arr[j + 1].index
+          : arr[j].index < arr[j + 1].index
+      ) {
+        swap(arr, j, j + 1);
       }
     }
-  } while (swapped);
+  }
 };

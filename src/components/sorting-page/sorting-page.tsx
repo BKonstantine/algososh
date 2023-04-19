@@ -70,24 +70,33 @@ export const SortingPage: FC = () => {
       array[i].state = ElementStates.Modified;
       setArray([...array]);
     }
-    setLoader({ loader: false, descending: false, ascending: false });    
+    setLoader({ loader: false, descending: false, ascending: false });
   };
 
-   const bubbleSort = (arr: SortTypes[], order: Direction) => {
-    let swapped: boolean;
-    do {
-      swapped = false;
-      for (let i = 0; i < arr.length - 1; i++) {
-        const shouldSwap =
-          order === Direction.Ascending
-            ? arr[i] > arr[i + 1]
-            : arr[i] < arr[i + 1];
-        if (shouldSwap) {
-          swap(arr, i, i + 1);
-          swapped = true;
+  const bubbleSort = async (arr: SortTypes[], order: Direction) => {
+    if (order === Direction.Ascending) {
+      setLoader({ ...loader, loader: true, ascending: true });
+    } else {
+      setLoader({ ...loader, loader: true, descending: true });
+    }
+    const { length } = arr;
+    for (let i = 0; i < length; i++) {
+      for (let j = 0; j < length - i - 1; j++) {
+        arr[j].state = ElementStates.Changing;
+        arr[j + 1].state = ElementStates.Changing;
+        setArray([...array]);
+        await setDelay(SHORT_DELAY_IN_MS);        
+        if (order === Direction.Ascending
+          ? arr[j].index > arr[j + 1].index
+          : arr[j].index < arr[j + 1].index) {
+          swap(arr, j, j + 1);
         }
+        arr[j].state = ElementStates.Default;
       }
-    } while (swapped);
+      arr[arr.length - i - 1].state = ElementStates.Modified;
+      setArray([...arr]);
+    }
+    setLoader({ loader: false, descending: false, ascending: false });
   };
 
   return (
