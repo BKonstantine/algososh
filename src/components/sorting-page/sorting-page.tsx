@@ -11,18 +11,23 @@ import { ElementStates, SortTypes } from "../../types/element-states";
 
 export const SortingPage: FC = () => {
   const [radioValue, setRadioValue] = useState("selectionSort");
-  const [array, setArray] = useState<SortTypes[]>();
+  const [order, setOrder] = useState("");
+  const [array, setArray] = useState<SortTypes[]>(randomArr());
 
   const getNewArray = () => {
     setArray(randomArr());
-  };
-
-  useEffect(() => {
-    getNewArray();
-  }, []);
+  };  
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRadioValue(e.target.value);
+  };
+
+  const ascendingSort = () => {
+    setOrder(Direction.Ascending);
+  };
+
+  const descendingSort = () => {
+    setOrder(Direction.Descending);
   };
 
   return (
@@ -44,8 +49,16 @@ export const SortingPage: FC = () => {
           />
         </div>
         <div className={style.form__buttons}>
-          <Button text="По возрастанию" sorting={Direction.Ascending} />
-          <Button text="По убыванию" sorting={Direction.Descending} />
+          <Button
+            text="По возрастанию"
+            sorting={Direction.Ascending}
+            onClick={ascendingSort}
+          />
+          <Button
+            text="По убыванию"
+            sorting={Direction.Descending}
+            onClick={descendingSort}
+          />
           <Button text="Новый массив" onClick={getNewArray} />
         </div>
       </div>
