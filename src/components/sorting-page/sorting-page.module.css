@@ -17,7 +17,7 @@
   gap: 12px;
 }
 
-button:last-child {
+.form__buttons > button:last-child {
   margin-left: 80px;
 }
 
