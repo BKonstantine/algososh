@@ -1,0 +1,20 @@
+.form {
+  margin: 0 auto;
+  max-width: 952px;
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+}
+
+.form__container {
+  display: flex;
+  gap: 12px;
+}
+
+.button_size_small {
+  min-width: 175px;
+}
+
+.button_size_large {
+  min-width: 362px;
+}
