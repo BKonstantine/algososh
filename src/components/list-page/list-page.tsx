@@ -7,6 +7,8 @@ import { linkedList } from "./LinkedList";
 import { makeLinkedList } from "./utils";
 import { ElementTypes } from "../../types/element-states";
 import { ElementStates } from "../../types/element-states";
+import { ArrowIcon } from "../ui/icons/arrow-icon";
+import { Circle } from "../ui/circle/circle";
 
 export const ListPage: FC = () => {
   const [array, setArray] = useState<ElementTypes[]>();
@@ -14,9 +16,8 @@ export const ListPage: FC = () => {
   useEffect(() => {
     makeLinkedList();
     setArray(linkedList.getArray());
-       
   }, []);
-  
+
   return (
     <SolutionLayout title="Связный список">
       <div className={style.form}>
@@ -57,6 +58,20 @@ export const ListPage: FC = () => {
           />
         </div>
       </div>
+      <ul className={style.symbolList}>
+        <li className={style.symbolList__item}>
+          <Circle
+            isSmall
+            extraClass={`${style.circle} ${style.circle__type_add}`}
+          />
+          <Circle extraClass={style.circle} index={0} />
+          <Circle
+            isSmall
+            extraClass={`${style.circle} ${style.circle__type_delete}`}
+          />
+          <ArrowIcon />
+        </li>
+      </ul>
     </SolutionLayout>
   );
 };
