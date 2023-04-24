@@ -3,7 +3,7 @@
   max-width: 952px;
   display: flex;
   flex-direction: column;
-  gap: 38px;
+  gap: 12px;
 }
 
 .form__container {
