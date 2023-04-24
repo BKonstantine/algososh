@@ -1,95 +1,117 @@
-class Node<T> {
-  value: T;
-  next: Node<T> | null;
-  constructor(value: T, next?: Node<T> | null) {
-    this.value = value;
-    this.next = next === undefined ? null : next;
+class ListNode<T> {
+  val: T;
+  next: ListNode<T> | null;
+  constructor(val: T, next: ListNode<T> | null = null) {
+    this.val = val;
+    this.next = next;
   }
 }
 
 interface ILinkedList<T> {
-  append: (element: T) => void;
-  insertAt: (element: T, position: number) => void;
-  getSize: () => number;
-  print: () => void;
+  addToFront: (element: T) => void;
+  addToEnd: (element: T) => void;
+  addAtIndex: (index: number, val: T) => void;
+  deleteAtIndex: (index: number) => void;
+  deleteAtBeginning: () => void;
+  deleteAtEnd: () => void;
+  getArray: () => T[];
 }
 
 class LinkedList<T> implements ILinkedList<T> {
-  private head: Node<T> | null;
-  private size: number;
+  private head: ListNode<T> | null;
   constructor() {
     this.head = null;
-    this.size = 0;
   }
 
-  insertAt(element: T, index: number) {
-    if (index < 0 || index > this.size) {
-      console.log("Enter a valid index");
+  addToFront(val: T) {
+    const newNode = new ListNode(val);
+    newNode.next = this.head;
+    this.head = newNode;
+  }
+
+  deleteAtBeginning() {
+    if (this.head == null) {
       return;
-    } else {
-      const node = new Node(element);
-
-      // добавить элемент в начало списка
-      if (index === 0) {
-        if (this.head === null) {
-          this.head = node;
-        } else {
-          node.next = this.head;
-          this.head = node;
-        }
-        // ваш код ...
-      } else {
-        let curr = this.head;
-        let currIndex = 0;
-
-        // перебрать элементы в списке до нужной позиции
-        // ваш код ...
-        while (currIndex <= index) {
-          currIndex++;
-          if (currIndex === index && curr) {
-            node.next = curr.next;
-            curr.next = node;
-          } else if (currIndex !== index && curr) {
-            curr = curr.next;
-          }
-        }
-        // добавить элемент
-        // ваш код ...
-      }
-      this.size++;
     }
+    this.head = this.head.next;
   }
 
-  append(element: T) {
-    const node = new Node(element);
-    let current;
-
+  addToEnd(val: T) {
+    const newNode = new ListNode(val);
     if (this.head === null) {
-      this.head = node;
-    } else {
-      current = this.head;
-      while (current.next) {
-        current = current.next;
-      }
-
-      current.next = node;
+      this.head = newNode;
+      return;
     }
-    this.size++;
+
+    let cur = this.head;
+    while (cur.next !== null) {
+      cur = cur.next;
+    }
+    cur.next = newNode;
   }
 
-  getSize() {
-    return this.size;
+  deleteAtEnd() {
+    if (this.head == null) {
+      return;
+    }
+    if (this.head.next == null) {
+      this.head = null;
+      return;
+    }
+    let cur = this.head;
+    while (cur.next != null && cur.next.next != null) {
+      cur = cur.next;
+    }
+    cur.next = null;
   }
 
-  print() {
-    let curr = this.head;
-    let res = "";
-    while (curr) {
-      res += `${curr.value} `;
-      curr = curr.next;
+  addAtIndex(index: number, val: T) {
+    const newNode = new ListNode(val);
+    if (index === 0) {
+      newNode.next = this.head;
+      this.head = newNode;
+      return;
     }
-    console.log(res);
+
+    let cur = this.head;
+    for (let i = 0; i < index - 1 && cur !== null; ++i) {
+      cur = cur.next;
+    }
+    if (cur === null) {
+      return;
+    }
+    newNode.next = cur.next;
+    cur.next = newNode;
+  }
+
+  deleteAtIndex(index: number) {
+    if (this.head === null) {
+      return;
+    }
+    if (index === 0) {
+      this.head = this.head.next;
+      return;
+    }
+
+    let cur = this.head;
+    for (let i = 0; i < index - 1 && cur !== null; ++i) {
+      if (cur.next) cur = cur.next;
+    }
+    if (cur === null || cur.next === null) {
+      return;
+    }
+    cur.next = cur.next.next;
+  }
+
+  getArray(): T[] {
+    const result: T[] = [];
+    let cur = this.head;
+    while (cur !== null) {
+      result.push(cur.val);
+      cur = cur.next;
+    }
+    return result;
   }
 }
 
-export const list = new LinkedList<number>();
+export const linkedList = new LinkedList<number>();
