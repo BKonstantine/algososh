@@ -1,3 +1,5 @@
+import { ElementTypes } from "../../types/element-states";
+
 class ListNode<T> {
   val: T;
   next: ListNode<T> | null;
@@ -114,4 +116,4 @@ class LinkedList<T> implements ILinkedList<T> {
   }
 }
 
-export const linkedList = new LinkedList<number>();
+export const linkedList = new LinkedList<ElementTypes>();

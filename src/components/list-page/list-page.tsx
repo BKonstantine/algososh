@@ -1,10 +1,22 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import style from "./list-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
+import { linkedList } from "./LinkedList";
+import { makeLinkedList } from "./utils";
+import { ElementTypes } from "../../types/element-states";
+import { ElementStates } from "../../types/element-states";
 
 export const ListPage: FC = () => {
+  const [array, setArray] = useState<ElementTypes[]>();
+
+  useEffect(() => {
+    makeLinkedList();
+    setArray(linkedList.getArray());
+       
+  }, []);
+  
   return (
     <SolutionLayout title="Связный список">
       <div className={style.form}>
