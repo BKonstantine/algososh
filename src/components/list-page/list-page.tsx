@@ -10,9 +10,19 @@ import { ElementTypes } from "../../types/element-states";
 import { ElementStates } from "../../types/element-states";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { Circle } from "../ui/circle/circle";
+import { setDelay } from "../../utils/set-delay";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const ListPage: FC = () => {
   const [array, setArray] = useState<ElementTypes[]>();
+  const [loader, setLoader] = useState({
+    addToHead: false,
+    addToTail: false,
+    deleteInHead: false,
+    deleteInTail: false,
+    addToIndex: false,
+    deleteToIndex: false,
+  });
   const [inputValue, setInputValue] = useState({
     value: "",
     index: 0,
@@ -23,36 +33,42 @@ export const ListPage: FC = () => {
     setArray(linkedList.getArray());
   }, []);
 
-  const addToFront = () => {
+  const addToFront = async () => {
     const node = { letter: inputValue.value, state: ElementStates.Default };
     linkedList.addToFront(node);
+    await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
   };
 
-  const addToEnd = () => {
+  const addToEnd = async () => {
     const node = { letter: inputValue.value, state: ElementStates.Default };
     linkedList.addToEnd(node);
+    await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
   };
 
-  const deleteAtFront = () => {
+  const deleteAtFront = async () => {
     linkedList.deleteAtFront();
+    await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
   };
 
-  const deleteAtEnd = () => {
+  const deleteAtEnd = async () => {
     linkedList.deleteAtEnd();
+    await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
   };
 
-  const addAtIndex = () => {
+  const addAtIndex = async () => {
     const node = { letter: inputValue.value, state: ElementStates.Default };
     linkedList.addAtIndex(inputValue.index, node);
+    await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
   };
 
-  const deleteAtIndex = () => {
+  const deleteAtIndex = async () => {
     linkedList.deleteAtIndex(inputValue.index);
+    await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
   };
 
