@@ -23,9 +23,42 @@ export const ListPage: FC = () => {
     setArray(linkedList.getArray());
   }, []);
 
+  const addToFront = () => {
+    const node = { letter: inputValue.value, state: ElementStates.Default };
+    linkedList.addToFront(node);
+    setArray([...linkedList.getArray()]);
+  };
+
+  const addToEnd = () => {
+    const node = { letter: inputValue.value, state: ElementStates.Default };
+    linkedList.addToEnd(node);
+    setArray([...linkedList.getArray()]);
+  };
+
+  const deleteAtFront = () => {
+    linkedList.deleteAtFront();
+    setArray([...linkedList.getArray()]);
+  };
+
+  const deleteAtEnd = () => {
+    linkedList.deleteAtEnd();
+    setArray([...linkedList.getArray()]);
+  };
+
+  const addAtIndex = () => {
+    const node = { letter: inputValue.value, state: ElementStates.Default };
+    linkedList.addAtIndex(inputValue.index, node);
+    setArray([...linkedList.getArray()]);
+  };
+
+  const deleteAtIndex = () => {
+    linkedList.deleteAtIndex(inputValue.index);
+    setArray([...linkedList.getArray()]);
+  };
+
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue({ ...inputValue, [e.target.name]: e.target.value });
-  };  
+  };
 
   return (
     <SolutionLayout title="Связный список">
@@ -42,21 +75,25 @@ export const ListPage: FC = () => {
             type="button"
             text="Добавить в head"
             extraClass={`${style.button} ${style.button_size_small}`}
+            onClick={addToFront}
           />
           <Button
             type="button"
             text="Добавить в tail"
             extraClass={`${style.button} ${style.button_size_small}`}
+            onClick={addToEnd}
           />
           <Button
             type="button"
             text="Удалить из head"
             extraClass={`${style.button} ${style.button_size_small}`}
+            onClick={deleteAtFront}
           />
           <Button
             type="button"
             text="Удалить из tail"
             extraClass={`${style.button} ${style.button_size_small}`}
+            onClick={deleteAtEnd}
           />
         </div>
         <div className={style.form__container}>
@@ -70,11 +107,13 @@ export const ListPage: FC = () => {
             type="button"
             text="Добавить по индексу"
             extraClass={`${style.button} ${style.button_size_large}`}
+            onClick={addAtIndex}
           />
           <Button
             type="button"
             text="Удалить по индексу"
             extraClass={`${style.button} ${style.button_size_large}`}
+            onClick={deleteAtIndex}
           />
         </div>
       </div>

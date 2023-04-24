@@ -14,7 +14,7 @@ interface ILinkedList<T> {
   addToEnd: (element: T) => void;
   addAtIndex: (index: number, val: T) => void;
   deleteAtIndex: (index: number) => void;
-  deleteAtBeginning: () => void;
+  deleteAtFront: () => void;
   deleteAtEnd: () => void;
   getArray: () => T[];
 }
@@ -31,7 +31,7 @@ class LinkedList<T> implements ILinkedList<T> {
     this.head = newNode;
   }
 
-  deleteAtBeginning() {
+  deleteAtFront() {
     if (this.head == null) {
       return;
     }
