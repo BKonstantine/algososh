@@ -14,9 +14,7 @@ import { setDelay } from "../../utils/set-delay";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const ListPage: FC = () => {
-  const [array, setArray] = useState<NodeType<ElementTypes>[]>();
-  const [addCircle, setAddCircle] = useState(false);
-  const [delCircle, setDelCircle] = useState(false);
+  const [array, setArray] = useState<NodeType<ElementTypes>[]>();  
   const [loader, setLoader] = useState({
     addToHead: false,
     addToTail: false,
@@ -92,6 +90,26 @@ export const ListPage: FC = () => {
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue({ ...inputValue, [e.target.name]: e.target.value });
+  };
+
+  const showHeadCircle = () => {
+    return (
+      <Circle
+        letter={inputValue.value}
+        isSmall
+        state={ElementStates.Changing}
+      />
+    );
+  };
+
+  const showTailCircle = () => {
+    return (
+      <Circle
+        letter={inputValue.value}
+        isSmall
+        state={ElementStates.Changing}
+      />
+    );
   };
 
   return (
@@ -178,8 +196,8 @@ export const ListPage: FC = () => {
                 index={index}
                 letter={item.val.letter}
                 state={item.val.state}
-                head={index === 0 && !addCircle ? "head" : ""}
-                tail={!item.next && !delCircle ? "tail" : ""}
+                head={showHeadCircle()}
+                tail={showTailCircle()}
               />
               {item.next && <ArrowIcon />}
             </li>
