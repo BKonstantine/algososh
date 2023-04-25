@@ -1,13 +1,9 @@
 import { ElementTypes } from "../../types/element-states";
 
-class ListNode<T> {
+export type NodeType<T> = {
   val: T;
-  next: ListNode<T> | null;
-  constructor(val: T, next: ListNode<T> | null = null) {
-    this.val = val;
-    this.next = next;
-  }
-}
+  next: NodeType<T> | null;
+};
 
 interface ILinkedList<T> {
   addToFront: (element: T) => void;
@@ -16,8 +12,17 @@ interface ILinkedList<T> {
   deleteAtIndex: (index: number) => void;
   deleteAtFront: () => void;
   deleteAtEnd: () => void;
-  getArray: () => T[];
+  getArray: () => NodeType<T>[];
   getSize: () => number;
+}
+
+class ListNode<T> implements NodeType<T> {
+  val: T;
+  next: ListNode<T> | null;
+  constructor(val: T, next: ListNode<T> | null = null) {
+    this.val = val;
+    this.next = next;
+  }
 }
 
 class LinkedList<T> implements ILinkedList<T> {
@@ -115,11 +120,11 @@ class LinkedList<T> implements ILinkedList<T> {
     this.size--;
   }
 
-  getArray(): T[] {
-    const result: T[] = [];
+  getArray() {
+    const result = [];
     let cur = this.head;
-    while (cur !== null) {
-      result.push(cur.val);
+    while (cur) {
+      result.push(cur);
       cur = cur.next;
     }
     return result;

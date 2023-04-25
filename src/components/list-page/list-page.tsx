@@ -4,7 +4,7 @@ import style from "./list-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
-import { linkedList } from "./LinkedList";
+import { linkedList, NodeType } from "./LinkedList";
 import { makeLinkedList } from "./utils";
 import { ElementTypes } from "../../types/element-states";
 import { ElementStates } from "../../types/element-states";
@@ -14,7 +14,7 @@ import { setDelay } from "../../utils/set-delay";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const ListPage: FC = () => {
-  const [array, setArray] = useState<ElementTypes[]>();
+  const [array, setArray] = useState<NodeType<ElementTypes>[]>();
   const [loader, setLoader] = useState({
     addToHead: false,
     addToTail: false,
@@ -147,7 +147,9 @@ export const ListPage: FC = () => {
             text="Добавить по индексу"
             extraClass={`${style.button} ${style.button_size_large}`}
             onClick={addAtIndex}
-            disabled={!!!(inputValue.index && inputValue.value) || loader.disabled}
+            disabled={
+              !!!(inputValue.index && inputValue.value) || loader.disabled
+            }
             isLoader={loader.addToIndex}
           />
           <Button
@@ -173,8 +175,8 @@ export const ListPage: FC = () => {
               <Circle
                 extraClass={style.circle}
                 index={index}
-                letter={item.letter}
-                state={item.state}
+                letter={item.val.letter}
+                state={item.val.state}
               />
               {false && (
                 <Circle
@@ -182,7 +184,7 @@ export const ListPage: FC = () => {
                   extraClass={`${style.circle} ${style.circle__type_delete}`}
                 />
               )}
-              {true && <ArrowIcon />}
+              {item.next && <ArrowIcon />}
             </li>
           );
         })}
