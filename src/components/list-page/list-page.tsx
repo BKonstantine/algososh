@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { nanoid } from "nanoid";
 import style from "./list-page.module.css";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
@@ -13,7 +13,10 @@ import { setDelay } from "../../utils/set-delay";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const ListPage: FC = () => {
-  const [array, setArray] = useState<NodeType<ElementTypes>[]>();
+  const [array, setArray] = useState<NodeType<ElementTypes>[]>(
+    linkedList.getArray()
+  );
+  const [circleIndex, setCircleIndex] = useState(-1);
   const [loader, setLoader] = useState({
     addToHead: false,
     addToTail: false,
@@ -27,20 +30,6 @@ export const ListPage: FC = () => {
     value: "",
     index: "",
   });
-
-  const listSize = linkedList.getSize();
-
-  const makeLinkedList = () => {
-    const array = ["0", "34", "8", "1"];
-    return array.forEach((item) => {
-      linkedList.addToEnd({ letter: item, state: ElementStates.Default });
-    });
-  };
-
-  useEffect(() => {
-    makeLinkedList();
-    setArray(linkedList.getArray());
-  }, []);
 
   const addToFront = async () => {
     setLoader({ ...loader, addToHead: true, disabled: true });
@@ -58,6 +47,7 @@ export const ListPage: FC = () => {
     linkedList.addToEnd(node);
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setInputValue({ value: "", index: "" });
     setLoader({ ...loader, addToTail: false, disabled: false });
   };
 
@@ -66,6 +56,7 @@ export const ListPage: FC = () => {
     linkedList.deleteAtFront();
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setInputValue({ value: "", index: "" });
     setLoader({ ...loader, deleteInHead: false, disabled: false });
   };
 
@@ -74,6 +65,7 @@ export const ListPage: FC = () => {
     linkedList.deleteAtEnd();
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setInputValue({ value: "", index: "" });
     setLoader({ ...loader, deleteInTail: false, disabled: false });
   };
 
@@ -83,6 +75,7 @@ export const ListPage: FC = () => {
     linkedList.addAtIndex(Number(inputValue.index), node);
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setInputValue({ value: "", index: "" });
     setLoader({ ...loader, addToIndex: false, disabled: false });
   };
 
@@ -91,6 +84,7 @@ export const ListPage: FC = () => {
     linkedList.deleteAtIndex(Number(inputValue.index));
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setInputValue({ value: "", index: "" });
     setLoader({ ...loader, deleteToIndex: false, disabled: false });
   };
 
@@ -98,24 +92,28 @@ export const ListPage: FC = () => {
     setInputValue({ ...inputValue, [e.target.name]: e.target.value });
   };
 
-  const showHeadCircle = () => {
-    return (
+  const showHeadCircle = (index: number) => {
+    return circleIndex === index ? (
       <Circle
         letter={inputValue.value}
         isSmall
         state={ElementStates.Changing}
       />
-    );
+    ) : index === 0 ? (
+      "head"
+    ) : undefined;
   };
 
-  const showTailCircle = () => {
-    return (
+  const showTailCircle = (index: number) => {
+    return circleIndex === index ? (
       <Circle
         letter={inputValue.value}
         isSmall
         state={ElementStates.Changing}
       />
-    );
+    ) : index === array.length - 1 ? (
+      "tail"
+    ) : undefined;
   };
 
   return (
@@ -135,7 +133,9 @@ export const ListPage: FC = () => {
             text="Добавить в head"
             extraClass={`${style.button} ${style.button_size_small}`}
             onClick={addToFront}
-            disabled={!!!inputValue.value || loader.disabled}
+            disabled={
+              !!!inputValue.value || loader.disabled || array.length === 7
+            }
             isLoader={loader.addToHead}
           />
           <Button
@@ -143,7 +143,9 @@ export const ListPage: FC = () => {
             text="Добавить в tail"
             extraClass={`${style.button} ${style.button_size_small}`}
             onClick={addToEnd}
-            disabled={!!!inputValue.value || loader.disabled}
+            disabled={
+              !!!inputValue.value || loader.disabled || array.length === 7
+            }
             isLoader={loader.addToTail}
           />
           <Button
@@ -151,7 +153,7 @@ export const ListPage: FC = () => {
             text="Удалить из head"
             extraClass={`${style.button} ${style.button_size_small}`}
             onClick={deleteAtFront}
-            disabled={!!!listSize || loader.disabled}
+            disabled={!!!array || loader.disabled || array.length === 0}
             isLoader={loader.deleteInHead}
           />
           <Button
@@ -159,7 +161,7 @@ export const ListPage: FC = () => {
             text="Удалить из tail"
             extraClass={`${style.button} ${style.button_size_small}`}
             onClick={deleteAtEnd}
-            disabled={!!!listSize || loader.disabled}
+            disabled={!!!array || loader.disabled || array.length === 0}
             isLoader={loader.deleteInTail}
           />
         </div>
@@ -169,7 +171,7 @@ export const ListPage: FC = () => {
             placeholder="Введите индекс"
             name="index"
             min={0}
-            max={linkedList.getSize() - 1}
+            max={array.length - 1}
             value={inputValue.index}
             onChange={onChange}
           />
@@ -202,10 +204,10 @@ export const ListPage: FC = () => {
                 index={index}
                 letter={item.val.letter}
                 state={item.val.state}
-                head={showHeadCircle()}
-                tail={showTailCircle()}
+                head={showHeadCircle(index)}
+                tail={showTailCircle(index)}
               />
-              {item.next && <ArrowIcon />}
+              {index !== array.length - 1 && <ArrowIcon />}
             </li>
           );
         })}

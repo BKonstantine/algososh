@@ -1,4 +1,5 @@
 import { ElementTypes } from "../../types/element-states";
+import { randomArr } from "./utils";
 
 export type NodeType<T> = {
   val: T;
@@ -31,9 +32,12 @@ class ListNode<T> implements NodeType<T> {
 class LinkedList<T> implements ILinkedList<T> {
   private head: ListNode<T> | null;
   private size: number;
-  constructor() {
+  constructor(values: T[] = []) {
     this.head = null;
     this.size = 0;
+    for (let val of values) {
+      this.addToEnd(val);
+    }
   }
 
   addToFront(val: T) {
@@ -166,4 +170,4 @@ class LinkedList<T> implements ILinkedList<T> {
   }
 }
 
-export const linkedList = new LinkedList<ElementTypes>();
+export const linkedList = new LinkedList<ElementTypes>(randomArr(3, 4));
