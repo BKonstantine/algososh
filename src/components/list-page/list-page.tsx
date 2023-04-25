@@ -15,6 +15,8 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const ListPage: FC = () => {
   const [array, setArray] = useState<NodeType<ElementTypes>[]>();
+  const [addCircle, setAddCircle] = useState(false);
+  const [delCircle, setDelCircle] = useState(false);
   const [loader, setLoader] = useState({
     addToHead: false,
     addToTail: false,
@@ -166,10 +168,11 @@ export const ListPage: FC = () => {
         {array?.map((item, index) => {
           return (
             <li className={style.symbolList__item} key={nanoid()}>
-              {false && (
+              {addCircle && (
                 <Circle
                   isSmall
                   extraClass={`${style.circle} ${style.circle__type_add}`}
+                  state={ElementStates.Changing}
                 />
               )}
               <Circle
@@ -178,10 +181,11 @@ export const ListPage: FC = () => {
                 letter={item.val.letter}
                 state={item.val.state}
               />
-              {false && (
+              {delCircle && (
                 <Circle
                   isSmall
                   extraClass={`${style.circle} ${style.circle__type_delete}`}
+                  state={ElementStates.Changing}
                 />
               )}
               {item.next && <ArrowIcon />}
