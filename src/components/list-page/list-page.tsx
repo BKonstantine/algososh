@@ -5,7 +5,6 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { linkedList, NodeType } from "./LinkedList";
-import { makeLinkedList } from "./utils";
 import { ElementTypes } from "../../types/element-states";
 import { ElementStates } from "../../types/element-states";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
@@ -14,7 +13,7 @@ import { setDelay } from "../../utils/set-delay";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const ListPage: FC = () => {
-  const [array, setArray] = useState<NodeType<ElementTypes>[]>();  
+  const [array, setArray] = useState<NodeType<ElementTypes>[]>();
   const [loader, setLoader] = useState({
     addToHead: false,
     addToTail: false,
@@ -30,6 +29,13 @@ export const ListPage: FC = () => {
   });
 
   const listSize = linkedList.getSize();
+
+  const makeLinkedList = () => {
+    const array = ["0", "34", "8", "1"];
+    return array.forEach((item) => {
+      linkedList.addToEnd({ letter: item, state: ElementStates.Default });
+    });
+  };
 
   useEffect(() => {
     makeLinkedList();
