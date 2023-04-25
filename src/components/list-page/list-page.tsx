@@ -180,6 +180,8 @@ export const ListPage: FC = () => {
                 index={index}
                 letter={item.val.letter}
                 state={item.val.state}
+                head={index === 0 && !addCircle ? "head" : ""}
+                tail={!item.next && !delCircle ? "tail" : ""}
               />
               {delCircle && (
                 <Circle
