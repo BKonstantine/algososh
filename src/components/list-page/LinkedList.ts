@@ -17,31 +17,37 @@ interface ILinkedList<T> {
   deleteAtFront: () => void;
   deleteAtEnd: () => void;
   getArray: () => T[];
+  getSize: () => number;
 }
 
 class LinkedList<T> implements ILinkedList<T> {
   private head: ListNode<T> | null;
+  private size: number;
   constructor() {
     this.head = null;
+    this.size = 0;
   }
 
   addToFront(val: T) {
     const newNode = new ListNode(val);
     newNode.next = this.head;
     this.head = newNode;
+    this.size++;
   }
 
   deleteAtFront() {
-    if (this.head == null) {
+    if (this.head === null) {
       return;
     }
     this.head = this.head.next;
+    this.size--;
   }
 
   addToEnd(val: T) {
     const newNode = new ListNode(val);
     if (this.head === null) {
       this.head = newNode;
+      this.size++;
       return;
     }
 
@@ -50,13 +56,14 @@ class LinkedList<T> implements ILinkedList<T> {
       cur = cur.next;
     }
     cur.next = newNode;
+    this.size++;
   }
 
   deleteAtEnd() {
-    if (this.head == null) {
+    if (this.head === null) {
       return;
     }
-    if (this.head.next == null) {
+    if (this.head.next === null) {
       this.head = null;
       return;
     }
@@ -65,6 +72,7 @@ class LinkedList<T> implements ILinkedList<T> {
       cur = cur.next;
     }
     cur.next = null;
+    this.size--;
   }
 
   addAtIndex(index: number, val: T) {
@@ -84,6 +92,7 @@ class LinkedList<T> implements ILinkedList<T> {
     }
     newNode.next = cur.next;
     cur.next = newNode;
+    this.size++;
   }
 
   deleteAtIndex(index: number) {
@@ -103,6 +112,7 @@ class LinkedList<T> implements ILinkedList<T> {
       return;
     }
     cur.next = cur.next.next;
+    this.size--;
   }
 
   getArray(): T[] {
@@ -113,6 +123,10 @@ class LinkedList<T> implements ILinkedList<T> {
       cur = cur.next;
     }
     return result;
+  }
+
+  getSize(): number {
+    return this.size;
   }
 }
 

@@ -22,11 +22,14 @@ export const ListPage: FC = () => {
     deleteInTail: false,
     addToIndex: false,
     deleteToIndex: false,
+    disabled: false,
   });
   const [inputValue, setInputValue] = useState({
     value: "",
     index: 0,
   });
+
+  const listSize = linkedList.getSize();
 
   useEffect(() => {
     makeLinkedList();
@@ -34,42 +37,54 @@ export const ListPage: FC = () => {
   }, []);
 
   const addToFront = async () => {
+    setLoader({ ...loader, addToHead: true, disabled: true });
     const node = { letter: inputValue.value, state: ElementStates.Default };
     linkedList.addToFront(node);
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setLoader({ ...loader, addToHead: false, disabled: false });
   };
 
   const addToEnd = async () => {
+    setLoader({ ...loader, addToTail: true, disabled: true });
     const node = { letter: inputValue.value, state: ElementStates.Default };
     linkedList.addToEnd(node);
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setLoader({ ...loader, addToTail: false, disabled: false });
   };
 
   const deleteAtFront = async () => {
+    setLoader({ ...loader, deleteInHead: true, disabled: true });
     linkedList.deleteAtFront();
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setLoader({ ...loader, deleteInHead: false, disabled: false });
   };
 
   const deleteAtEnd = async () => {
+    setLoader({ ...loader, deleteInTail: true, disabled: true });
     linkedList.deleteAtEnd();
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setLoader({ ...loader, deleteInTail: false, disabled: false });
   };
 
   const addAtIndex = async () => {
+    setLoader({ ...loader, addToIndex: true, disabled: true });
     const node = { letter: inputValue.value, state: ElementStates.Default };
     linkedList.addAtIndex(inputValue.index, node);
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setLoader({ ...loader, addToIndex: false, disabled: false });
   };
 
   const deleteAtIndex = async () => {
+    setLoader({ ...loader, deleteToIndex: true, disabled: true });
     linkedList.deleteAtIndex(inputValue.index);
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setLoader({ ...loader, deleteToIndex: false, disabled: false });
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -92,24 +107,32 @@ export const ListPage: FC = () => {
             text="Добавить в head"
             extraClass={`${style.button} ${style.button_size_small}`}
             onClick={addToFront}
+            disabled={!!!inputValue.value || loader.disabled}
+            isLoader={loader.addToHead}
           />
           <Button
             type="button"
             text="Добавить в tail"
             extraClass={`${style.button} ${style.button_size_small}`}
             onClick={addToEnd}
+            disabled={!!!inputValue.value || loader.disabled}
+            isLoader={loader.addToTail}
           />
           <Button
             type="button"
             text="Удалить из head"
             extraClass={`${style.button} ${style.button_size_small}`}
             onClick={deleteAtFront}
+            disabled={!!!listSize || loader.disabled}
+            isLoader={loader.deleteInHead}
           />
           <Button
             type="button"
             text="Удалить из tail"
             extraClass={`${style.button} ${style.button_size_small}`}
             onClick={deleteAtEnd}
+            disabled={!!!listSize || loader.disabled}
+            isLoader={loader.deleteInTail}
           />
         </div>
         <div className={style.form__container}>
@@ -124,12 +147,16 @@ export const ListPage: FC = () => {
             text="Добавить по индексу"
             extraClass={`${style.button} ${style.button_size_large}`}
             onClick={addAtIndex}
+            disabled={!!!(inputValue.index && inputValue.value) || loader.disabled}
+            isLoader={loader.addToIndex}
           />
           <Button
             type="button"
             text="Удалить по индексу"
             extraClass={`${style.button} ${style.button_size_large}`}
             onClick={deleteAtIndex}
+            disabled={!!!inputValue.index || loader.disabled}
+            isLoader={loader.deleteToIndex}
           />
         </div>
       </div>
