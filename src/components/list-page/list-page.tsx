@@ -28,7 +28,7 @@ export const ListPage: FC = () => {
   });
   const [inputValue, setInputValue] = useState({
     value: "",
-    index: 0,
+    index: "",
   });
 
   const listSize = linkedList.getSize();
@@ -44,6 +44,7 @@ export const ListPage: FC = () => {
     linkedList.addToFront(node);
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setInputValue({ value: "", index: "" });
     setLoader({ ...loader, addToHead: false, disabled: false });
   };
 
@@ -75,7 +76,7 @@ export const ListPage: FC = () => {
   const addAtIndex = async () => {
     setLoader({ ...loader, addToIndex: true, disabled: true });
     const node = { letter: inputValue.value, state: ElementStates.Default };
-    linkedList.addAtIndex(inputValue.index, node);
+    linkedList.addAtIndex(Number(inputValue.index), node);
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
     setLoader({ ...loader, addToIndex: false, disabled: false });
@@ -83,7 +84,7 @@ export const ListPage: FC = () => {
 
   const deleteAtIndex = async () => {
     setLoader({ ...loader, deleteToIndex: true, disabled: true });
-    linkedList.deleteAtIndex(inputValue.index);
+    linkedList.deleteAtIndex(Number(inputValue.index));
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
     setLoader({ ...loader, deleteToIndex: false, disabled: false });
@@ -102,6 +103,7 @@ export const ListPage: FC = () => {
             isLimitText
             placeholder="Введите значение"
             name="value"
+            value={inputValue.value}
             onChange={onChange}
           />
           <Button
@@ -142,6 +144,9 @@ export const ListPage: FC = () => {
             type="number"
             placeholder="Введите индекс"
             name="index"
+            min={0}
+            max={linkedList.getSize() - 1}
+            value={inputValue.index}
             onChange={onChange}
           />
           <Button
@@ -168,13 +173,6 @@ export const ListPage: FC = () => {
         {array?.map((item, index) => {
           return (
             <li className={style.symbolList__item} key={nanoid()}>
-              {addCircle && (
-                <Circle
-                  isSmall
-                  extraClass={`${style.circle} ${style.circle__type_add}`}
-                  state={ElementStates.Changing}
-                />
-              )}
               <Circle
                 extraClass={style.circle}
                 index={index}
@@ -183,13 +181,6 @@ export const ListPage: FC = () => {
                 head={index === 0 && !addCircle ? "head" : ""}
                 tail={!item.next && !delCircle ? "tail" : ""}
               />
-              {delCircle && (
-                <Circle
-                  isSmall
-                  extraClass={`${style.circle} ${style.circle__type_delete}`}
-                  state={ElementStates.Changing}
-                />
-              )}
               {item.next && <ArrowIcon />}
             </li>
           );
