@@ -16,6 +16,7 @@ interface ILinkedList<T> {
   getSize: () => number;
   getFirst: () => T | null;
   getLast: () => T | null;
+  getAtIndex: (index: number) => T | null;
 }
 
 class ListNode<T> implements NodeType<T> {
@@ -120,6 +121,16 @@ class LinkedList<T> implements ILinkedList<T> {
     }
     cur.next = cur.next.next;
     this.size--;
+  }
+
+  getAtIndex(index: number): T | null {
+    let current: ListNode<T> | null = this.head;
+    let i = 0;
+    while (current !== null && i < index) {
+      current = current.next;
+      i++;
+    }
+    return current !== null && i === index ? current.val : null;
   }
 
   getFirst(): T | null {
