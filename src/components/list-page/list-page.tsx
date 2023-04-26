@@ -232,7 +232,10 @@ export const ListPage: FC = () => {
             extraClass={`${style.button} ${style.button_size_large}`}
             onClick={addAtIndex}
             disabled={
-              !!!(inputValue.index && inputValue.value) || loader.disabled
+              !!!(inputValue.index && inputValue.value) ||
+              loader.disabled ||
+              Number(inputValue.index) > array.length - 1 ||
+              Number(inputValue.index) < 0
             }
             isLoader={loader.addToIndex}
           />
@@ -241,7 +244,12 @@ export const ListPage: FC = () => {
             text="Удалить по индексу"
             extraClass={`${style.button} ${style.button_size_large}`}
             onClick={deleteAtIndex}
-            disabled={!!!inputValue.index || loader.disabled}
+            disabled={
+              !!!inputValue.index ||
+              loader.disabled ||
+              Number(inputValue.index) > array.length - 1 ||
+              Number(inputValue.index) < 0
+            }
             isLoader={loader.deleteToIndex}
           />
         </div>
