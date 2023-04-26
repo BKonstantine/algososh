@@ -14,8 +14,8 @@ interface ILinkedList<T> {
   deleteAtEnd: () => void;
   getArray: () => NodeType<T>[];
   getSize: () => number;
-  getFirst: () => T | null;
-  getLast: () => T | null;
+  getFirst: () => NodeType<T> | null;
+  getLast: () => NodeType<T> | null;
   getAtIndex: (index: number) => T | null;
 }
 
@@ -136,14 +136,14 @@ class LinkedList<T> implements ILinkedList<T> {
     return current !== null && i === index ? current.val : null;
   }
 
-  getFirst(): T | null {
+  getFirst() {
     if (this.head === null) {
       return null;
     }
-    return this.head.val;
+    return this.head;
   }
 
-  getLast(): T | null {
+  getLast() {
     if (this.head === null) {
       return null;
     }
@@ -151,7 +151,7 @@ class LinkedList<T> implements ILinkedList<T> {
     while (lastNode.next !== null) {
       lastNode = lastNode.next;
     }
-    return lastNode.val;
+    return lastNode;
   }
 
   getArray() {

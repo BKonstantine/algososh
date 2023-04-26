@@ -70,18 +70,30 @@ export const ListPage: FC = () => {
 
   const deleteAtFront = async () => {
     setLoader({ ...loader, deleteInHead: true, disabled: true });
-    linkedList.deleteAtFront();
+    setCurrentValue(linkedList.getFirst()!.val);
+    linkedList.getFirst()!.val = "";
+    setCircleIndex(0);
+    setPosition(CirclePosition.tail);
     await setDelay(SHORT_DELAY_IN_MS);
+    linkedList.deleteAtFront();
+    setCircleIndex(-1);
     setArray([...linkedList.getArray()]);
+    await setDelay(SHORT_DELAY_IN_MS);
     setInputValue({ value: "", index: "" });
     setLoader({ ...loader, deleteInHead: false, disabled: false });
   };
 
   const deleteAtEnd = async () => {
     setLoader({ ...loader, deleteInTail: true, disabled: true });
-    linkedList.deleteAtEnd();
+    setCurrentValue(linkedList.getLast()!.val);
+    linkedList.getLast()!.val = "";
+    setCircleIndex(linkedList.getSize() - 1);
+    setPosition(CirclePosition.tail);
     await setDelay(SHORT_DELAY_IN_MS);
+    linkedList.deleteAtEnd();
+    setCircleIndex(-1);
     setArray([...linkedList.getArray()]);
+    await setDelay(SHORT_DELAY_IN_MS);    
     setInputValue({ value: "", index: "" });
     setLoader({ ...loader, deleteInTail: false, disabled: false });
   };
