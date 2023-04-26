@@ -45,7 +45,7 @@ export const FibonacciPage: FC = () => {
           text="Рассчитать"
           isLoader={loader}
           type="submit"
-          disabled={!!!inputValue}
+          disabled={!!!inputValue || Number(inputValue) > 19}
         />
       </form>
       <ul className={style.symbolList}>
