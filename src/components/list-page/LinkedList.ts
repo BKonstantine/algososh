@@ -1,4 +1,3 @@
-import { ElementTypes } from "../../types/element-states";
 import { randomArr } from "./utils";
 
 export type NodeType<T> = {
@@ -170,4 +169,4 @@ class LinkedList<T> implements ILinkedList<T> {
   }
 }
 
-export const linkedList = new LinkedList<ElementTypes>(randomArr(3, 4));
+export const linkedList = new LinkedList<string>(randomArr(3, 4));
