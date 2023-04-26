@@ -12,7 +12,7 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 export const FibonacciPage: FC = () => {
   const [inputValue, setInputValue] = useState("");
   const [loader, setLoader] = useState(false);
-  const [array, setArray] = useState<Array<number>>();  
+  const [array, setArray] = useState<Array<number>>();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -21,12 +21,13 @@ export const FibonacciPage: FC = () => {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoader(true);
-    const data = fib(Number(inputValue));    
+    const data = fib(Number(inputValue));
     for (let i = 0; i < data.length; i++) {
       await setDelay(SHORT_DELAY_IN_MS);
       setArray(data.slice(0, i + 1));
-    }    
-    setLoader(false);    
+    }
+    setInputValue("");
+    setLoader(false);
   };
 
   return (
