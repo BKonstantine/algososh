@@ -119,9 +119,22 @@ export const ListPage: FC = () => {
 
   const deleteAtIndex = async () => {
     setLoader({ ...loader, deleteToIndex: true, disabled: true });
+    for (let i = 0; i <= Number(inputValue.index); i++) {
+      setState({ ...state, changingIndex: i });
+      await setDelay(SHORT_DELAY_IN_MS);
+    }
+    setState({ ...state, changingIndex: Number(inputValue.index) - 1 });
+    setCurrentValue(
+      String(linkedList.getAtIndex(Number(inputValue.index))?.val)
+    );
+    linkedList.getAtIndex(Number(inputValue.index))!.val = "";
+    setArray([...linkedList.getArray()]);
+    setCircleIndex(Number(inputValue.index));
+    setPosition(CirclePosition.tail);
     linkedList.deleteAtIndex(Number(inputValue.index));
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setState({ ...state, changingIndex: -1 });
     setInputValue({ value: "", index: "" });
     setLoader({ ...loader, deleteToIndex: false, disabled: false });
   };
