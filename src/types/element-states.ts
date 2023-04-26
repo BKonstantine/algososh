@@ -4,6 +4,16 @@ export enum ElementStates {
   Modified = "modified",
 }
 
+export enum CirclePosition {
+  head = "head",
+  tail = "tail",
+}
+
+export type CircleState = {
+  modifiedIndex: number;
+  changingIndex: number;
+};
+
 export type ElementTypes = {
   letter: string;
   state: ElementStates;

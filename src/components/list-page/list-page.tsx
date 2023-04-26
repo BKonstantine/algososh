@@ -5,18 +5,22 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { linkedList, NodeType } from "./LinkedList";
-import { ElementTypes } from "../../types/element-states";
-import { ElementStates } from "../../types/element-states";
+import { ElementTypes, ElementStates } from "../../types/element-states";
 import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { Circle } from "../ui/circle/circle";
 import { setDelay } from "../../utils/set-delay";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { CirclePosition } from "../../types/element-states";
+import { setCircleState } from "./utils";
 
 export const ListPage: FC = () => {
+  const [state, setState] = useState({
+    modifiedIndex: -1,
+    changingIndex: -1,
+  });
   const [array, setArray] = useState<NodeType<ElementTypes>[]>(
     linkedList.getArray()
   );
-  const [circleIndex, setCircleIndex] = useState(-1);
   const [loader, setLoader] = useState({
     addToHead: false,
     addToTail: false,
@@ -26,6 +30,9 @@ export const ListPage: FC = () => {
     deleteToIndex: false,
     disabled: false,
   });
+  const [circleIndex, setCircleIndex] = useState(-1);
+  const [position, setPosition] = useState<CirclePosition>();
+  const [currentValue, setCurrentValue] = useState("");
   const [inputValue, setInputValue] = useState({
     value: "",
     index: "",
@@ -33,10 +40,17 @@ export const ListPage: FC = () => {
 
   const addToFront = async () => {
     setLoader({ ...loader, addToHead: true, disabled: true });
+    setCurrentValue(inputValue.value);
+    setCircleIndex(0);
+    setPosition(CirclePosition.head);
+    await setDelay(SHORT_DELAY_IN_MS);
+    setCircleIndex(-1);
     const node = { letter: inputValue.value, state: ElementStates.Default };
     linkedList.addToFront(node);
-    await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
+    setState({ ...state, modifiedIndex: 0 });
+    await setDelay(SHORT_DELAY_IN_MS);
+    setState({ ...state, modifiedIndex: -1 });    
     setInputValue({ value: "", index: "" });
     setLoader({ ...loader, addToHead: false, disabled: false });
   };
@@ -93,27 +107,27 @@ export const ListPage: FC = () => {
   };
 
   const showHeadCircle = (index: number) => {
-    return circleIndex === index ? (
-      <Circle
-        letter={inputValue.value}
-        isSmall
-        state={ElementStates.Changing}
-      />
-    ) : index === 0 ? (
-      "head"
-    ) : undefined;
+    if (circleIndex === index && position === CirclePosition.head) {
+      return (
+        <Circle isSmall letter={currentValue} state={ElementStates.Changing} />
+      );
+    } else if (index === 0) {
+      return "head";
+    } else {
+      return undefined;
+    }
   };
 
   const showTailCircle = (index: number) => {
-    return circleIndex === index ? (
-      <Circle
-        letter={inputValue.value}
-        isSmall
-        state={ElementStates.Changing}
-      />
-    ) : index === array.length - 1 ? (
-      "tail"
-    ) : undefined;
+    if (circleIndex === index && position === CirclePosition.tail) {
+      return (
+        <Circle isSmall letter={currentValue} state={ElementStates.Changing} />
+      );
+    } else if (index === array.length - 1) {
+      return "tail";
+    } else {
+      return undefined;
+    }
   };
 
   return (
@@ -203,7 +217,7 @@ export const ListPage: FC = () => {
                 extraClass={style.circle}
                 index={index}
                 letter={item.val.letter}
-                state={item.val.state}
+                state={setCircleState(index, state)}
                 head={showHeadCircle(index)}
                 tail={showTailCircle(index)}
               />
