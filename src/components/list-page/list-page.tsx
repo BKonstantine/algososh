@@ -93,16 +93,26 @@ export const ListPage: FC = () => {
     linkedList.deleteAtEnd();
     setCircleIndex(-1);
     setArray([...linkedList.getArray()]);
-    await setDelay(SHORT_DELAY_IN_MS);    
+    await setDelay(SHORT_DELAY_IN_MS);
     setInputValue({ value: "", index: "" });
     setLoader({ ...loader, deleteInTail: false, disabled: false });
   };
 
   const addAtIndex = async () => {
     setLoader({ ...loader, addToIndex: true, disabled: true });
+    for (let i = -1; i <= Number(inputValue.index); i++) {
+      setCurrentValue(inputValue.value);
+      setPosition(CirclePosition.head);
+      setCircleIndex(i);
+      setState({ ...state, changingIndex: i - 1 });
+      await setDelay(SHORT_DELAY_IN_MS);
+    }
     linkedList.addAtIndex(Number(inputValue.index), inputValue.value);
-    await setDelay(SHORT_DELAY_IN_MS);
+    setCircleIndex(-1);
     setArray([...linkedList.getArray()]);
+    setState({ ...state, modifiedIndex: Number(inputValue.index) });
+    await setDelay(SHORT_DELAY_IN_MS);
+    setState({ ...state, modifiedIndex: -1 });
     setInputValue({ value: "", index: "" });
     setLoader({ ...loader, addToIndex: false, disabled: false });
   };
