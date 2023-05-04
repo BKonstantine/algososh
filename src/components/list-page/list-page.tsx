@@ -135,6 +135,7 @@ export const ListPage: FC = () => {
     await setDelay(SHORT_DELAY_IN_MS);
     setArray([...linkedList.getArray()]);
     setState({ ...state, changingIndex: -1 });
+    setCircleIndex(-1);
     setInputValue({ value: "", index: "" });
     setLoader({ ...loader, deleteToIndex: false, disabled: false });
   };
