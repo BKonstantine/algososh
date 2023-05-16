@@ -127,6 +127,7 @@ export const SortingPage: FC = () => {
             isLoader={loader.ascending}
             disabled={loader.descending}
             extraClass={style.button}
+            data="ascending-button"
           />
           <Button
             text="По убыванию"
@@ -135,11 +136,13 @@ export const SortingPage: FC = () => {
             isLoader={loader.descending}
             disabled={loader.ascending}
             extraClass={style.button}
+            data="descending-button"
           />
           <Button
             text="Новый массив"
             onClick={getNewArray}
             disabled={loader.loader}
+            data="new-array-button"
           />
         </div>
       </div>
