@@ -82,3 +82,24 @@ export const bubbleSortTest = (arr: number[], order: Direction): number[] => {
   }
   return arr;
 };
+
+export const selectionSortTest = (
+  arr: number[],
+  order: Direction
+): number[] => {
+  const { length } = arr;
+  for (let i = 0; i < length - 1; i++) {
+    let maxInd = i;
+    for (let j = i + 1; j < length; j++) {
+      if (
+        order === Direction.Ascending
+          ? arr[j] < arr[maxInd]
+          : arr[j] > arr[maxInd]
+      ) {
+        maxInd = j;
+      }
+    }
+    swapTest(arr, maxInd, i);
+  }
+  return arr;
+};
