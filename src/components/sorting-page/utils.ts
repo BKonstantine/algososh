@@ -55,3 +55,30 @@ export const bubbleSort = async (arr: SortTypes[], order: Direction) => {
     }
   }
 };
+
+export const swapTest = (
+  value: number[],
+  firstItem: number,
+  secondItem: number
+) => {
+  return ([value[firstItem], value[secondItem]] = [
+    value[secondItem],
+    value[firstItem],
+  ]);
+};
+
+export const bubbleSortTest = (arr: number[], order: Direction): number[] => {
+  const { length } = arr;
+  for (let i = 0; i < length; i++) {
+    for (let j = 0; j < length - i - 1; j++) {
+      if (
+        order === Direction.Ascending
+          ? arr[j] > arr[j + 1]
+          : arr[j] < arr[j + 1]
+      ) {
+        swapTest(arr, j, j + 1);
+      }
+    }
+  }
+  return arr;
+};

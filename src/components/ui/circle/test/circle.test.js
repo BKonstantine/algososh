@@ -2,7 +2,7 @@ import TestRenderer from "react-test-renderer";
 import { Circle } from "../circle";
 import { ElementStates } from "../../../../types/element-states";
 
-describe("Тестирование компонента Circle", () => {
+describe("Тест компонента Circle", () => {
   test("Компонент Circle без букв отрисован корректно", () => {
     const circle = TestRenderer.create(<Circle letter="" />).toJSON();
     expect(circle).toMatchSnapshot();
