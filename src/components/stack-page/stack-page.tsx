@@ -63,6 +63,7 @@ export const StackPage: FC = () => {
         />
         <Button
           text="Добавить"
+          data="add-button"
           type="button"
           disabled={!!!inputValue}
           onClick={addElement}
@@ -70,6 +71,7 @@ export const StackPage: FC = () => {
         />
         <Button
           text="Удалить"
+          data="delete-button"
           type="button"
           disabled={currIndex === 0}
           onClick={deleteElement}
@@ -77,6 +79,7 @@ export const StackPage: FC = () => {
         />
         <Button
           text="Очистить"
+          data="clear-button"
           type="button"
           disabled={currIndex === 0}
           extraClass={style.button}
