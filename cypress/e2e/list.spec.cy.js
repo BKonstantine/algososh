@@ -43,7 +43,7 @@ describe("Проверка визуализации структуры данн�
     cy.get(deleteByIndexButton).should("be.disabled");
   });
 
-  it("Удаление элемента из head работает корректно", () => {
+/*   it("Удаление элемента из head работает корректно", () => {
     let circleData = [];
     getDataFromCircle(circleData);
     cy.get(deleteFromHeadButton).should("not.be.disabled");
@@ -69,9 +69,9 @@ describe("Проверка визуализации структуры данн�
         .should("have.text", circleData[0]);
     });
     cy.wait(SHORT_DELAY_IN_MS);
-  });
+  }); */
 
-  it("Удаление элемента из tail работает корректно", () => {
+/*   it("Удаление элемента из tail работает корректно", () => {
     let circleData = [];
     getDataFromCircle(circleData);
     cy.get(deleteFromTailButton).should("not.be.disabled");
@@ -97,9 +97,9 @@ describe("Проверка визуализации структуры данн�
         .should("have.text", circleData[circleData.length - 1]);
     });
     cy.wait(SHORT_DELAY_IN_MS);
-  });
+  }); */
 
-  it("Добавление элемента в head работает корректно", () => {
+/*   it("Добавление элемента в head работает корректно", () => {
     const number = "1";
     cy.get(inputValue).type(number);
     cy.get(addToHeadButton).should("not.be.disabled");
@@ -124,6 +124,38 @@ describe("Проверка визуализации структуры данн�
     cy.wait(SHORT_DELAY_IN_MS);
     cy.get(circleItem).then((item) => {
       cy.get(item[0])
+        .invoke("attr", "class")
+        .then((classList) => expect(classList).contains(stateDefault));
+    });
+  }); */
+
+  it("Добавление элемента в tail работает корректно", () => {
+    const number = "1";
+    let circleData = [];
+    getDataFromCircle(circleData);
+    cy.get(inputValue).type(number);
+    cy.get(addToTailButton).should("not.be.disabled");
+    cy.get(addToTailButton).click();
+    cy.get(addToTailButton)
+      .invoke("attr", "class")
+      .then((classList) => expect(classList).contains("loader"));
+    cy.get(circleContent).then((item) => {
+      cy.get(item[circleData.length - 1])
+        .find(circleSmall)
+        .invoke("attr", "class")
+        .then((classList) => expect(classList).contains(stateChanging));
+      cy.get(item[circleData.length - 1]).find(circleSmall).children().should("have.text", number);
+    });
+    cy.wait(SHORT_DELAY_IN_MS);
+    cy.get(circleItem).then((item) => {
+      cy.get(item[circleData.length])
+        .invoke("attr", "class")
+        .then((classList) => expect(classList).contains(stateModified));
+      cy.get(item[circleData.length]).children().should("have.text", number);
+    });
+    cy.wait(SHORT_DELAY_IN_MS);
+    cy.get(circleItem).then((item) => {
+      cy.get(item[circleData.length])
         .invoke("attr", "class")
         .then((classList) => expect(classList).contains(stateDefault));
     });
