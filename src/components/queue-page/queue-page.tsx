@@ -19,7 +19,7 @@ export const QueuePage: FC = () => {
     add: false,
     delete: false,
     clear: false,
-  });  
+  });
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -69,6 +69,7 @@ export const QueuePage: FC = () => {
         />
         <Button
           text="Добавить"
+          data="add-button"
           type="button"
           onClick={addElement}
           isLoader={loader.add}
@@ -76,6 +77,7 @@ export const QueuePage: FC = () => {
         />
         <Button
           text="Удалить"
+          data="delete-button"
           type="button"
           onClick={deleteElement}
           isLoader={loader.delete}
@@ -83,6 +85,7 @@ export const QueuePage: FC = () => {
         />
         <Button
           text="Очистить"
+          data="clear-button"
           type="button"
           onClick={clearElements}
           extraClass={style.button}
@@ -102,13 +105,9 @@ export const QueuePage: FC = () => {
                   ? ElementStates.Changing
                   : ElementStates.Default
               }
-              head={
-                index === queue.getHead() && !queue.isEmpty() ? HEAD : ""
-              }
+              head={index === queue.getHead() && !queue.isEmpty() ? HEAD : ""}
               tail={
-                index === queue.getTailIndex() && !queue.isEmpty()
-                  ? TAIL
-                  : ""
+                index === queue.getTailIndex() && !queue.isEmpty() ? TAIL : ""
               }
             />
           );
