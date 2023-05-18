@@ -2,9 +2,8 @@ import { circleItem } from "../variables";
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Проверка визуализации алгоритма Фибоначчи", () => {
-  beforeEach(() => {
-    cy.viewport(1440, 900);
-    cy.visit("http://localhost:3000/fibonacci");
+  beforeEach(() => {    
+    cy.visit("/fibonacci");
   });
 
   it("Поле ввода пустое, кнопка 'Рассчитать' заблокировано", () => {

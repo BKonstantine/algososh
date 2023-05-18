@@ -8,9 +8,8 @@ import {
 } from "../variables";
 
 describe("Проверка визуализации алгоритмов сортировки", () => {
-  beforeEach(() => {
-    cy.viewport(1440, 900);
-    cy.visit("http://localhost:3000/sorting");
+  beforeEach(() => {    
+    cy.visit("/sorting");
   });
 
   it("Кнопки активны, радио-кнопка 'Выбор' активна", () => {

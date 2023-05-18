@@ -28,9 +28,8 @@ const getDataFromCircle = (array) => {
 };
 
 describe("Проверка визуализации структуры данных 'Связанный список'", () => {
-  beforeEach(() => {
-    cy.viewport(1440, 900);
-    cy.visit("http://localhost:3000/list");
+  beforeEach(() => {    
+    cy.visit("/list");
   });
 
   it("Начальное состояние страницы отображается корректно", () => {

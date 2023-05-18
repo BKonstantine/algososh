@@ -13,9 +13,8 @@ import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
 const array = ["1", "2", "3"];
 
 describe("Проверка визуализации структуры данных 'Очередь'", () => {
-  beforeEach(() => {
-    cy.viewport(1440, 900);
-    cy.visit("http://localhost:3000/queue");
+  beforeEach(() => {    
+    cy.visit("/queue");
   });
 
   const addItem = (value) => {

@@ -8,9 +8,8 @@ import {
 import { DELAY_IN_MS } from "../../src/constants/delays";
 
 describe("Проверка визуализации алгоритма разворота строки", () => {
-  beforeEach(() => {
-    cy.viewport(1440, 900);
-    cy.visit("http://localhost:3000/recursion");
+  beforeEach(() => {    
+    cy.visit("/recursion");
   });
 
   it("Поле ввода пустое, кнопка 'Развернуть' заблокирована", () => {
