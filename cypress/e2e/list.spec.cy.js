@@ -43,7 +43,7 @@ describe("Проверка визуализации структуры данн�
     cy.get(deleteByIndexButton).should("be.disabled");
   });
 
-/*   it("Удаление элемента из head работает корректно", () => {
+  /*   it("Удаление элемента из head работает корректно", () => {
     let circleData = [];
     getDataFromCircle(circleData);
     cy.get(deleteFromHeadButton).should("not.be.disabled");
@@ -71,7 +71,7 @@ describe("Проверка визуализации структуры данн�
     cy.wait(SHORT_DELAY_IN_MS);
   }); */
 
-/*   it("Удаление элемента из tail работает корректно", () => {
+  /*   it("Удаление элемента из tail работает корректно", () => {
     let circleData = [];
     getDataFromCircle(circleData);
     cy.get(deleteFromTailButton).should("not.be.disabled");
@@ -99,7 +99,7 @@ describe("Проверка визуализации структуры данн�
     cy.wait(SHORT_DELAY_IN_MS);
   }); */
 
-/*   it("Добавление элемента в head работает корректно", () => {
+  /*   it("Добавление элемента в head работает корректно", () => {
     const number = "1";
     cy.get(inputValue).type(number);
     cy.get(addToHeadButton).should("not.be.disabled");
@@ -129,7 +129,7 @@ describe("Проверка визуализации структуры данн�
     });
   }); */
 
-  it("Добавление элемента в tail работает корректно", () => {
+  /* it("Добавление элемента в tail работает корректно", () => {
     const number = "1";
     let circleData = [];
     getDataFromCircle(circleData);
@@ -159,5 +159,50 @@ describe("Проверка визуализации структуры данн�
         .invoke("attr", "class")
         .then((classList) => expect(classList).contains(stateDefault));
     });
+  }); */
+
+  it("Удаление элемента по индексу работает корректно", () => {
+    let circleData = [];
+    getDataFromCircle(circleData);
+    let index = 1;
+    cy.get(inputIndex).type(index);
+    cy.get(deleteByIndexButton).should("not.be.disabled");
+    cy.get(deleteByIndexButton).click();
+    cy.get(deleteByIndexButton)
+      .invoke("attr", "class")
+      .then((classList) => expect(classList).contains("loader"));
+    cy.get(circleItem).then((item) => {
+      cy.get(item[0])
+        .invoke("attr", "class")
+        .then((classList) => expect(classList).contains(stateChanging));
+      cy.wait(SHORT_DELAY_IN_MS);
+    });
+    cy.get(circleItem).then((item) => {
+      cy.get(item[0])
+        .invoke("attr", "class")
+        .then((classList) => expect(classList).contains(stateChanging));
+      cy.get(item[1])
+        .invoke("attr", "class")
+        .then((classList) => expect(classList).contains(stateChanging));
+      cy.wait(SHORT_DELAY_IN_MS);
+    });
+    cy.get(circleItem).then((item) => {
+      cy.get(item[0])
+        .invoke("attr", "class")
+        .then((classList) => expect(classList).contains(stateChanging));
+      cy.get(item[1])
+        .invoke("attr", "class")
+        .then((classList) => expect(classList).contains(stateDefault));
+      cy.get(item[1]).children().should("have.text", "");      
+    });
+    cy.get(circleContent).then((item) => {
+      cy.get(item[index])
+        .find(circleSmall)
+        .invoke("attr", "class")
+        .then((classList) => expect(classList).contains(stateChanging));
+      cy.get(item[1]).find(circleSmall).children().should("have.text", circleData[index]);
+    });
+    cy.wait(SHORT_DELAY_IN_MS);
+    cy.get(deleteByIndexButton).should("be.disabled");
   });
 });
